@@ -11,9 +11,6 @@ env:
   # The name of the main module repository
   main_project_module: app
 
-  # The name of the Play Store
-  playstore_name: Frogobox ID
-
 on:
   push:
     branches: [ "main" ]
@@ -54,15 +51,12 @@ jobs:
     - name: Build apk debug project (APK) - ${{ env.main_project_module }} module
       run: ./gradlew assembleDebug
 
-    - name: Print Gradle Build Output
-      run: find . -name "*.apk"
-
     # Upload Artifact Build
     # Noted For Output [main_project_module]/build/outputs/apk/debug/
     - name: Upload APK Debug
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK debug generated
+        name: ${{ env.date_today }} - ${{ env.repository_name }} - APK debug generated
         path: ./app/build/outputs/apk/debug/ # Updated to the exact path
   dependency-submission:
 
