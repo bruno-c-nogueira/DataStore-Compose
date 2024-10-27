@@ -36,16 +36,17 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
-    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
-    #
-    # - name: Setup Gradle
-    #   uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
-    #   with:
-    #     gradle-version: '8.9'
-    #
-    # - name: Build with Gradle 8.9
-    #   run: gradle build
+    # Create APK Debug
+    - name: Build apk debug project (APK) - ${{ env.main_project_module }} module
+      run: ./gradlew assembleDebug
+        
+        # Upload Artifact Build
+        # Noted For Output [main_project_module]/build/outputs/apk/debug/
+             - name: Upload APK Debug - ${{ env.repository_name }}
+             uses: actions/upload-artifact@v3
+             with:
+               name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) debug generated
+               path: ${{ env.main_project_module }}/build/outputs/apk/debug/
 
   dependency-submission:
 
@@ -60,15 +61,6 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-    - name: Build apk debug project (APK) - ${{ env.main_project_module }} module
-      run: ./gradlew assembleDebug
-
-    - name: Upload APK Debug - ${{ env.repository_name }}
-      uses: actions/upload-artifact@v3
-      with:
-        name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) debug generated
-        path: ${{ env.main_project_module }}/build/outputs/apk/debug/
-
 
       # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
     # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
