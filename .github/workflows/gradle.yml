@@ -63,7 +63,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK debug generated
-        path: ${{ env.main_project_module }}/app/build/outputs/apk/debug/ # Updated to the exact path
+        path: /app/build/outputs/apk/debug/ # Updated to the exact path
   dependency-submission:
 
     runs-on: ubuntu-latest
